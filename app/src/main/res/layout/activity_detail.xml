@@ -20,7 +20,7 @@
         android:id="@+id/textViewTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Titolo"
+        android:text="Title"
         android:textSize="30dp"
         android:textColor="@android:color/black"
         android:layout_marginStart="20dp"
