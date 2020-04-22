@@ -1,18 +1,16 @@
 package com.example.moviestest.data;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ImageView;
+import android.util.Log;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.moviestest.R;
 import com.example.moviestest.services.MainResponse;
 import com.example.moviestest.services.WebService;
@@ -26,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements com.example.moviestest.data.Adapter.OnFilmListener {
 
+    private static final String TAG ="ASDA";
     public static String BASE_URL = "https://api.themoviedb.org";
     public static int PAGE = 1;
     public static String API_KEY = "675236176baaaafd2ea29287a326d89b";
@@ -34,19 +33,20 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
     Adapter Adapter;
     RecyclerView recyclerView;
-    ImageView imageView;
-    ArrayList<String> titles=new ArrayList<String>();
-    ArrayList<String> images=new ArrayList<String>();
-    ArrayList<Integer> positions=new ArrayList<Integer>();
+    ArrayList<String> titles = new ArrayList<String>();
+    ArrayList<String> images = new ArrayList<String>();
+    ArrayList<Integer> positions = new ArrayList<Integer>();
     List<MainResponse.ResultsBean> listOfMovie;
     Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //cambia titolo action bar
         getSupportActionBar().setTitle("Movies");
-        imageView=findViewById(R.id.poster);
+
+        //isConnected();
+
         recyclerView = findViewById(R.id.listFilm);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -62,19 +62,16 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
                 MainResponse results = response.body();
                 listOfMovie = results.getResults();
-                for(int i = 0; i < listOfMovie.size(); i++) {
+                for (int i = 0; i < listOfMovie.size(); i++) {
                     String title = listOfMovie.get(i).getTitle();
                     String image = "https://image.tmdb.org/t/p/w500/" + listOfMovie.get(i).getPoster_path();
                     titles.add(title);
                     images.add(image);
-
-
-
-
                 }
                 Adapter = new Adapter(getApplicationContext(), titles, images, MainActivity.this::onFilmClick); // cosa strcacazzo devo metterci qui?
                 recyclerView.setAdapter(Adapter);
                 recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+
 
             }
 
@@ -93,24 +90,18 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected( @NonNull MenuItem item ) {
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.icon_search) {
-
-
+  /*  public boolean isConnected(){
+        ConnectivityManager cm =(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo =cm.getActiveNetworkInfo();
+        if(networkInfo!=null && networkInfo.isConnectedOrConnecting()){
+            Log.d(TAG, "isConnected: youggottit");
+            Toast.makeText(context, "YEEEEES YOU ARE CONNECTED", Toast.LENGTH_SHORT).show();
             return true;
         }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu( Menu menu ) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
+        else{
+            Log.d(TAG, "NOT CONNECTED");
+            return false;
+        }
+    } */
 }

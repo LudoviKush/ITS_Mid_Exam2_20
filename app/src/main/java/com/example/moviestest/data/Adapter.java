@@ -12,10 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moviestest.R;
-import com.example.moviestest.services.MainResponse;
-
 import java.util.ArrayList;
-
 import retrofit2.Callback;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{

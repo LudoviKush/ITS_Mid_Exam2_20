@@ -1,6 +1,7 @@
 package com.example.moviestest.data;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -52,11 +53,12 @@ public class Dialog extends DialogFragment {
     }
 
     @Override
-    public void onAttach(@NonNull Activity activity) {
-        super.onAttach(activity);
-        if(activity instanceof IDialog)
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof IDialog)
         {
-            dialogListener = (IDialog) activity;
+            dialogListener = (IDialog) context;
         }
+
     }
 }
