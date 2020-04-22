@@ -1,11 +1,18 @@
 package com.example.moviestest.data;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moviestest.R;
 import com.example.moviestest.services.MainResponse;
 import com.example.moviestest.services.WebService;
@@ -27,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
     Adapter Adapter;
     RecyclerView recyclerView;
+    ImageView imageView;
     ArrayList<String> titles=new ArrayList<String>();
     ArrayList<String> images=new ArrayList<String>();
     ArrayList<Integer> positions=new ArrayList<Integer>();
@@ -38,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         setContentView(R.layout.activity_main);
         //cambia titolo action bar
         getSupportActionBar().setTitle("Movies");
-
+        imageView=findViewById(R.id.poster);
         recyclerView = findViewById(R.id.listFilm);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -59,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
                     String image = "https://image.tmdb.org/t/p/w500/" + listOfMovie.get(i).getPoster_path();
                     titles.add(title);
                     images.add(image);
+
+
+
+
                 }
                 Adapter = new Adapter(getApplicationContext(), titles, images, MainActivity.this::onFilmClick); // cosa strcacazzo devo metterci qui?
                 recyclerView.setAdapter(Adapter);
@@ -79,5 +91,26 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
         startActivity(intent);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( @NonNull MenuItem item ) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.icon_search) {
+
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 }

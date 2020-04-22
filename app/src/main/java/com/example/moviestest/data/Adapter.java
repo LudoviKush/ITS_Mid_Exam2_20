@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moviestest.R;
 import com.example.moviestest.services.MainResponse;
 
@@ -26,9 +28,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         this.context = context;
         this.titles = titles;
         this.images = images;
-
         this.mOnFilmListener = onFilmListener;
     }
+
+
 
     @NonNull
     @Override
@@ -41,7 +44,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.titleFilm.setText(titles.get(position));
-        Glide.with(context).load(images.get(position)).into(holder.poster);
+        Glide.with(context)
+                .load(images
+                .get(position))
+                .centerCrop()
+                .into(holder.poster);
     }
 
     @Override
