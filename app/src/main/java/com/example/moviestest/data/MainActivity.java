@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
                     titles.add(title);
                     images.add(image);
                 }
-                Adapter = new Adapter(getApplicationContext(), titles, images); // cosa strcacazzo devo metterci qui?
+                Adapter = new Adapter(getApplicationContext(), titles, images, null); // cosa strcacazzo devo metterci qui?
                 recyclerView.setAdapter(Adapter);
                 recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
 
