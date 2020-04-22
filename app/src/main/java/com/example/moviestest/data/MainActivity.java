@@ -9,8 +9,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebSettings;
 import android.widget.Toast;
-
 import com.example.moviestest.R;
 import com.example.moviestest.services.MainResponse;
 import com.example.moviestest.services.WebService;
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     RecyclerView recyclerView;
     ArrayList<String> titles = new ArrayList<String>();
     ArrayList<String> images = new ArrayList<String>();
-    ArrayList<Integer> positions = new ArrayList<Integer>();
     List<MainResponse.ResultsBean> listOfMovie;
     Context context;
 
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
                 .build();
 
         WebService service = retrofit.create(WebService.class);
-
         Call<MainResponse> call = service.getMovies(CATEGORY, API_KEY, LANGUAGE, PAGE);
 
         call.enqueue(new Callback<MainResponse>() {
@@ -71,15 +69,14 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
                 Adapter = new Adapter(getApplicationContext(), titles, images, MainActivity.this::onFilmClick); // cosa strcacazzo devo metterci qui?
                 recyclerView.setAdapter(Adapter);
                 recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
-
-
             }
-
             @Override
             public void onFailure(Call<MainResponse> call, Throwable t) {
-
+                Log.d(TAG, "onFailure");
             }
         });
+
+
     }
 
     //CLICK SULL' ELEMENTO PORTA A DETAIL ACTIVITY
