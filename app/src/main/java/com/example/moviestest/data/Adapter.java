@@ -10,10 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.moviestest.R;
-import com.example.moviestest.services.MainResponse;
-
 import java.util.ArrayList;
-
 import retrofit2.Callback;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
