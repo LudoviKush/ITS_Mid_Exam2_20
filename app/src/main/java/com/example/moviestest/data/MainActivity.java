@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     List<MainResponse.ResultsBean> listOfMovie;
     Context context;
 
+    private static final String SELECTED_ITEM_POSITION = "ItemPosition"; // this and next manage orientation
+    private int mPosition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +82,21 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
     }
 
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Save the state of item position
+        outState.putInt(SELECTED_ITEM_POSITION, mPosition);
+    }
+    @Override
+    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Read the state of item position
+        mPosition = savedInstanceState.getInt(SELECTED_ITEM_POSITION);
+    }
+
     //CLICK SULL' ELEMENTO PORTA A DETAIL ACTIVITY
     @Override
     public void onFilmClick(int position) {
@@ -100,5 +118,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
             Log.d(TAG, "NOT CONNECTED");
             return false;
         }
+
+        DA CHIEDERE A SEBASTIANO
     } */
 }
