@@ -35,9 +35,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     RecyclerView recyclerView;
     ArrayList<String> titles = new ArrayList<String>();
     ArrayList<String> images = new ArrayList<String>();
-    ArrayList<Integer> positions = new ArrayList<Integer>();
     List<MainResponse.ResultsBean> listOfMovie;
-    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("Movies");
 
-        //isConnected();
+        isNetworkAvailable();
 
         recyclerView = findViewById(R.id.listFilm);
         Retrofit retrofit = new Retrofit.Builder()
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
                 }
                 Adapter = new Adapter(getApplicationContext(), titles, images, MainActivity.this); // cosa strcacazzo devo metterci qui?
                 recyclerView.setAdapter(Adapter);
-                recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
 
 
             }
@@ -93,18 +91,17 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
     }
 
-
-  /*  public boolean isConnected(){
-        ConnectivityManager cm =(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo =cm.getActiveNetworkInfo();
-        if(networkInfo!=null && networkInfo.isConnectedOrConnecting()){
-            Log.d(TAG, "isConnected: youggottit");
-            Toast.makeText(context, "YEEEEES YOU ARE CONNECTED", Toast.LENGTH_SHORT).show();
+    public boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        // if no network is available networkInfo will be null
+        // otherwise check if we are connected
+        if (networkInfo != null && networkInfo.isConnected()) {
+            Log.d(TAG, "isNetworkAvailable: connected");
             return true;
         }
-        else{
-            Log.d(TAG, "NOT CONNECTED");
-            return false;
-        }
-    } */
+        Toast.makeText(this, "Non sei connesso ad internet, controlla la tua connessione", Toast.LENGTH_LONG).show();
+        return false;
+    }
 }
