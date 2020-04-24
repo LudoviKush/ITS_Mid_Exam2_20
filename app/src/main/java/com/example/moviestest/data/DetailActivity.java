@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.moviestest.R;
+import com.example.moviestest.data.db.MoviesProvider;
+import com.example.moviestest.data.db.MoviesTableHelper;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -32,6 +34,16 @@ public class DetailActivity extends AppCompatActivity {
         if(getIntent().getExtras() != null)
         {
 
+            mId = getIntent().getExtras().getInt("_ID");
+            Cursor vCursor = getContentResolver().query(Uri.parse(MoviesProvider.MOVIES_URI + "/" + mId), null, null, null);
+            vCursor.moveToNext();
+            String vTitle = vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.TITLE));
+            String vDescription = vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.DESCRIPTION));
+            String vImage = "https://image.tmdb.org/t/p/w500/" + vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.IMG_POSTER));
+
+            mTitle.setText(vTitle);
+            mDescription.setText(vDescription);
+            Glide.with(DetailActivity.this).load(vImage).into(mImage);
 
 
         }

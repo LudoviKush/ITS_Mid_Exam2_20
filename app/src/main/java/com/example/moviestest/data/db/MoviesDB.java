@@ -16,7 +16,6 @@ public class MoviesDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(MoviesTableHelper.CREATE);
-
     }
 
     @Override
