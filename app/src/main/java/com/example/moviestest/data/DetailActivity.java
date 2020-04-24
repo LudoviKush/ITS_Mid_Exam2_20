@@ -29,18 +29,15 @@ public class DetailActivity extends AppCompatActivity {
 
 
         if(getIntent().getExtras() != null){
-            mId=getIntent().getExtras().getString("position");
+            mId=getIntent().getExtras().getString("id");
         }
 
         mTitle = findViewById(R.id.textViewTitle);
         mDescription = findViewById(R.id.textViewDescription);
         mImage = findViewById(R.id.imageViewPoster);
-            Cursor vCursor =getContentResolver().query(MoviesProvider.MOVIES_URI, new String[]{MoviesTableHelper.TITLE, MoviesTableHelper.DESCRIPTION, MoviesTableHelper.IMG_POSTER}, MoviesTableHelper._ID + " = "+ mId, null, null);
+            Cursor vCursor = getContentResolver().query(MoviesProvider.MOVIES_URI, new String[]{MoviesTableHelper.TITLE, MoviesTableHelper.DESCRIPTION, MoviesTableHelper.IMG_POSTER}, MoviesTableHelper._ID + " = "+ mId, null, null);
 
             if(vCursor.moveToNext()) {
-
-
-
                 mTitle.setText(vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.TITLE)));
                 mDescription.setText(getText(vCursor.getColumnIndex(MoviesTableHelper.DESCRIPTION)));
                 Glide.with(DetailActivity.this).load(vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.IMG_POSTER))).into(mImage);

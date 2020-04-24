@@ -12,20 +12,20 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moviestest.R;
+import com.example.moviestest.services.MainResponse;
+
 import java.util.ArrayList;
 import retrofit2.Callback;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     private Context context;
-    private ArrayList<String> titles;
-    private ArrayList<String> images;
-    private OnFilmListener mOnFilmListener;
+    private ArrayList<MainResponse.ResultsFilm> mFilm;
+    private OnFilmClicked mOnFilmClicked;
 
-    public Adapter(Context context, ArrayList<String> titles, ArrayList<String> images, OnFilmListener onFilmListener) {
+    public Adapter( Context context, ArrayList<MainResponse.ResultsFilm> mFilm, OnFilmClicked onFilmListener) {
         this.context = context;
-        this.titles = titles;
-        this.images = images;
-        this.mOnFilmListener = onFilmListener;
+        this.mFilm = mFilm;
+        this.mOnFilmClicked = onFilmListener;
     }
 
 
@@ -35,22 +35,30 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.cell_film, parent, false);
-        return new ViewHolder(view, mOnFilmListener);
+        return new ViewHolder(view, new OnFilmListener() {
+            @Override
+            public void onFilmClick( int position ) {
+
+
+                mOnFilmClicked.onFilmId(mFilm.get(position).getId());
+            }
+        });
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.titleFilm.setText(titles.get(position));
+        String image = "https://image.tmdb.org/t/p/w500/" + mFilm.get(position).getPoster_path();
+
+        holder.titleFilm.setText(mFilm.get(position).getTitle());
         Glide.with(context)
-                .load(images
-                .get(position))
+                .load(image)
                 .centerCrop()
                 .into(holder.poster);
     }
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        return mFilm.size();
     }
 
 
@@ -80,6 +88,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
     public interface OnFilmListener{
         void onFilmClick(int position);
+    }
+    public interface OnFilmClicked{
+        void onFilmId(long id);
     }
 
 }

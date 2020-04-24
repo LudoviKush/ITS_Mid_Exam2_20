@@ -7,7 +7,7 @@ public class MainResponse {
     private int page;
     private int total_results;
     private int total_pages;
-    private List<ResultsBean> results;
+    private List<ResultsFilm> results;
 
     /*
     public int getPage() {
@@ -35,15 +35,15 @@ public class MainResponse {
     }
 
 */
-    public List<ResultsBean> getResults() {
+    public List<ResultsFilm> getResults() {
         return results;
     }
 
-    public void setResults(List<ResultsBean> results) {
+    public void setResults(List<ResultsFilm> results) {
         this.results = results;
     }
 
-    public static class ResultsBean {
+    public static class ResultsFilm {
 
 
         private double popularity;
