@@ -138,7 +138,7 @@ public class MainResponse {
             return title;
         }
 
-       /* public void setTitle(String title) {
+        public void setTitle(String title) {
             this.title = title;
         }
 
@@ -173,7 +173,7 @@ public class MainResponse {
         public void setGenre_ids(List<Integer> genre_ids) {
             this.genre_ids = genre_ids;
         }
-        */
+
     }
 }
 

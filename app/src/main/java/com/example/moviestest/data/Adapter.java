@@ -62,7 +62,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         public ViewHolder(@NonNull View itemView, OnFilmListener onFilmListener) {
             super(itemView);
             poster = itemView.findViewById(R.id.poster);
-          titleFilm = itemView.findViewById(R.id.filmTitle);
+            titleFilm = itemView.findViewById(R.id.filmTitle);
+
+
 
           this.onFilmListener = onFilmListener;
           itemView.setOnClickListener(this);
@@ -72,6 +74,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         @Override
         public void onClick(View v) {
             onFilmListener.onFilmClick(getAdapterPosition());
+
         }
     }
 

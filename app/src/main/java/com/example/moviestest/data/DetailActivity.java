@@ -16,7 +16,7 @@ import com.example.moviestest.data.db.MoviesTableHelper;
 
 public class DetailActivity extends AppCompatActivity {
 
-    int mId;
+    String mId;
     TextView mTitle, mDescription;
     ImageView mImage;
 
@@ -27,26 +27,26 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         getSupportActionBar().setTitle("Detail Activity");
 
+
+        if(getIntent().getExtras() != null){
+            mId=getIntent().getExtras().getString("position");
+        }
+
         mTitle = findViewById(R.id.textViewTitle);
         mDescription = findViewById(R.id.textViewDescription);
         mImage = findViewById(R.id.imageViewPoster);
+            Cursor vCursor =getContentResolver().query(MoviesProvider.MOVIES_URI, new String[]{MoviesTableHelper.TITLE, MoviesTableHelper.DESCRIPTION, MoviesTableHelper.IMG_POSTER}, MoviesTableHelper._ID + " = "+ mId, null, null);
 
-        if(getIntent().getExtras() != null)
-        {
+            if(vCursor.moveToNext()) {
 
-            mId = getIntent().getExtras().getInt("_ID");
-            Cursor vCursor = getContentResolver().query(Uri.parse(MoviesProvider.MOVIES_URI + "/" + mId), null, null, null);
-            vCursor.moveToNext();
-            String vTitle = vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.TITLE));
-            String vDescription = vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.DESCRIPTION));
-            String vImage = "https://image.tmdb.org/t/p/w500/" + vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.IMG_POSTER));
 
-            mTitle.setText(vTitle);
-            mDescription.setText(vDescription);
-            Glide.with(DetailActivity.this).load(vImage).into(mImage);
 
+                mTitle.setText(vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.TITLE)));
+                mDescription.setText(getText(vCursor.getColumnIndex(MoviesTableHelper.DESCRIPTION)));
+                Glide.with(DetailActivity.this).load(vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.IMG_POSTER))).into(mImage);
+            }
 
         }
 
     }
-}
+

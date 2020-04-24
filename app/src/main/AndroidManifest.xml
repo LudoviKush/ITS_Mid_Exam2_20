@@ -22,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.example.moviestest.data.db.MoviesProvider"
+            android:exported="true"
+            android:name=".data.db.MoviesProvider"/>
     </application>
 
 </manifest>

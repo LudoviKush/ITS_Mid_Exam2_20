@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
                     titles.add(title);
                     images.add(image);
                 }
-                Adapter = new Adapter(getApplicationContext(), titles, images, MainActivity.this::onFilmClick); // cosa strcacazzo devo metterci qui?
+                Adapter = new Adapter(getApplicationContext(), titles, images, MainActivity.this); // cosa strcacazzo devo metterci qui?
                 recyclerView.setAdapter(Adapter);
                 recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
 
@@ -85,8 +85,11 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     //CLICK SULL' ELEMENTO PORTA A DETAIL ACTIVITY
     @Override
     public void onFilmClick(int position) {
-        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-        startActivity(intent);
+        Intent i = new Intent(MainActivity.this, DetailActivity.class);
+        Bundle b = new Bundle();
+        b.putString("position",String.valueOf(position));
+        i.putExtras(b);
+        startActivity(i);
 
     }
 

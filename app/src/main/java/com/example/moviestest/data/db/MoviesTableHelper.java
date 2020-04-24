@@ -12,13 +12,13 @@ public class MoviesTableHelper implements BaseColumns {
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
 
-    public static final String CREATE = "CREATE TABLE " + TABLE_NAME + " ( " +
+    public static final String CREATE = "CREATE TABLE " + TABLE_NAME + "(" +
             _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             TITLE + " TEXT, " +
             PAGE + " INTEGER, " +
             DESCRIPTION + " TEXT, " +
             IMG_POSTER + " TEXT, " +
-            IMG_DESCRIPTION + " TEXT ) ;";
+            IMG_DESCRIPTION + " TEXT );";
 
 
 }
