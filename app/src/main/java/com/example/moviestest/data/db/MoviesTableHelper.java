@@ -20,7 +20,4 @@ public class MoviesTableHelper implements BaseColumns {
             IMG_POSTER + " TEXT, " +
             IMG_DESCRIPTION + " TEXT );";
 
-
 }
-
-

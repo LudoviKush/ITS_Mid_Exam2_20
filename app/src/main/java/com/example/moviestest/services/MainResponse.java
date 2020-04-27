@@ -7,9 +7,9 @@ public class MainResponse {
     private int page;
     private int total_results;
     private int total_pages;
-    private List<ResultsFilm> results;
+    private List<ResultsListFilm> results;
 
-    /*
+
     public int getPage() {
         return page;
     }
@@ -34,16 +34,15 @@ public class MainResponse {
         this.total_pages = total_pages;
     }
 
-*/
-    public List<ResultsFilm> getResults() {
+    public List<ResultsListFilm> getResults() {
         return results;
     }
 
-    public void setResults(List<ResultsFilm> results) {
+    public void setResults(List<ResultsListFilm> results) {
         this.results = results;
     }
 
-    public static class ResultsFilm {
+    public static class ResultsListFilm {
 
 
         private double popularity;
