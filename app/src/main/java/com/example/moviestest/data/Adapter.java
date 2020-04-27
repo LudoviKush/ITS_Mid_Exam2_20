@@ -22,7 +22,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     private ArrayList<MainResponse.ResultsFilm> mFilm;
     private OnFilmClicked mOnFilmClicked;
 
-    public Adapter( Context context, ArrayList<MainResponse.ResultsFilm> mFilm, OnFilmClicked onFilmListener) {
+    public Adapter(Context context, ArrayList<MainResponse.ResultsFilm> mFilm, OnFilmClicked onFilmListener) {
         this.context = context;
         this.mFilm = mFilm;
         this.mOnFilmClicked = onFilmListener;
@@ -38,7 +38,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         return new ViewHolder(view, new OnFilmListener() {
             @Override
             public void onFilmClick( int position ) {
-
 
                 mOnFilmClicked.onFilmId(mFilm.get(position).getId());
             }

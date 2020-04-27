@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
@@ -16,6 +17,7 @@ import com.example.moviestest.data.db.MoviesTableHelper;
 
 public class DetailActivity extends AppCompatActivity {
 
+    private static final String TAG = "ASDA";
     String mId;
     TextView mTitle, mDescription;
     ImageView mImage;
@@ -30,12 +32,18 @@ public class DetailActivity extends AppCompatActivity {
 
         if(getIntent().getExtras() != null){
             mId=getIntent().getExtras().getString("id");
+
         }
+
 
         mTitle = findViewById(R.id.textViewTitle);
         mDescription = findViewById(R.id.textViewDescription);
         mImage = findViewById(R.id.imageViewPoster);
-            Cursor vCursor = getContentResolver().query(MoviesProvider.MOVIES_URI, new String[]{MoviesTableHelper.TITLE, MoviesTableHelper.DESCRIPTION, MoviesTableHelper.IMG_POSTER}, MoviesTableHelper._ID + " = "+ mId, null, null);
+            Cursor vCursor = getContentResolver().query(MoviesProvider.MOVIES_URI,
+                    new String[]{MoviesTableHelper.TITLE, MoviesTableHelper.DESCRIPTION,
+                            MoviesTableHelper.IMG_POSTER}, MoviesTableHelper._ID +
+                            " = "+ mId, null, null);
+        Log.d(TAG, "passed: ");
 
             if(vCursor.moveToNext()) {
                 mTitle.setText(vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.TITLE)));

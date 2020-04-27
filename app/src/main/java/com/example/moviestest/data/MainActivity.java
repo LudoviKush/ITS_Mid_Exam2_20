@@ -10,7 +10,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.example.moviestest.R;
 import com.example.moviestest.services.MainResponse;
 import com.example.moviestest.services.WebService;
@@ -22,7 +21,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements com.example.moviestest.data.Adapter.OnFilmListener {
+public class MainActivity extends AppCompatActivity implements com.example.moviestest.data.Adapter.OnFilmClicked {
 
     private static final String TAG ="ASDA";
     public static String BASE_URL = "https://api.themoviedb.org";
@@ -33,9 +32,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
     Adapter Adapter;
     RecyclerView recyclerView;
-    ArrayList<String> titles = new ArrayList<String>();
-    ArrayList<String> images = new ArrayList<String>();
-    List<MainResponse.ResultsListFilm> listOfMovie;
+    List<MainResponse.ResultsFilm> listOfMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +57,12 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
                 MainResponse results = response.body();
                 listOfMovie = results.getResults();
-                for (int i = 0; i < listOfMovie.size(); i++) {
+               /* for (int i = 0; i < listOfMovie.size(); i++) {
+                    listOfMovie[i].getImage = image;
                     String title = listOfMovie.get(i).getTitle();
-                    String image = "https://image.tmdb.org/t/p/w500/" + listOfMovie.get(i).getPoster_path();
-                    titles.add(title);
-                    images.add(image);
-                }
-                Adapter = new Adapter(getApplicationContext(), titles, images, MainActivity.this); // cosa strcacazzo devo metterci qui?
+                     String image = "https://image.tmdb.org/t/p/w500/" + listOfMovie.get(i).getPoster_path();
+                }*/
+                Adapter = new Adapter(getApplicationContext(), (ArrayList<MainResponse.ResultsFilm>) listOfMovie, MainActivity.this);
                 recyclerView.setAdapter(Adapter);
                 recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
 
@@ -80,17 +76,6 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         });
     }
 
-    //CLICK SULL' ELEMENTO PORTA A DETAIL ACTIVITY
-    @Override
-    public void onFilmClick(int position) {
-        Intent i = new Intent(MainActivity.this, DetailActivity.class);
-        Bundle b = new Bundle();
-        b.putString("position",String.valueOf(position));
-        i.putExtras(b);
-        startActivity(i);
-
-    }
-
     public boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -101,5 +86,14 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         }
         Toast.makeText(this, "Non sei connesso ad internet, controlla la tua connessione", Toast.LENGTH_LONG).show();
         return false;
+    }
+
+    @Override
+    public void onFilmId(long id) {
+        Intent i = new Intent(MainActivity.this, DetailActivity.class);
+        Bundle b = new Bundle();
+        b.putString("id",String.valueOf(id));
+        i.putExtras(b);
+        startActivity(i);
     }
 }
