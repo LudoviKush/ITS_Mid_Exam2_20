@@ -42,6 +42,35 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
         isNetworkAvailable();
 
+        getFeed();
+
+        //will save
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            Log.d(TAG, "isNetworkAvailable: connected");
+            return true;
+        }
+        Toast.makeText(this, "Non sei connesso ad internet, controlla la tua connessione", Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public void onFilmId(long id) {
+        Intent i = new Intent(MainActivity.this, DetailActivity.class);
+        Bundle b = new Bundle();
+        b.putString("id",String.valueOf(id));
+        i.putExtras(b);
+        startActivity(i);
+    }
+
+
+    public void getFeed(){
+
         recyclerView = findViewById(R.id.listFilm);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -49,9 +78,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
                 .build();
 
         WebService service = retrofit.create(WebService.class);
-
         Call<MainResponse> call = service.getMovies(CATEGORY, API_KEY, LANGUAGE, PAGE);
-
         call.enqueue(new Callback<MainResponse>() {
             @Override
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
@@ -74,26 +101,5 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
             }
         });
-    }
-
-    public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            Log.d(TAG, "isNetworkAvailable: connected");
-            return true;
-        }
-        Toast.makeText(this, "Non sei connesso ad internet, controlla la tua connessione", Toast.LENGTH_LONG).show();
-        return false;
-    }
-
-    @Override
-    public void onFilmId(long id) {
-        Intent i = new Intent(MainActivity.this, DetailActivity.class);
-        Bundle b = new Bundle();
-        b.putString("id",String.valueOf(id));
-        i.putExtras(b);
-        startActivity(i);
     }
 }

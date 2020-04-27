@@ -1,6 +1,8 @@
 package com.example.moviestest.data;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moviestest.R;
+import com.example.moviestest.data.db.MoviesDB;
+import com.example.moviestest.data.db.MoviesTableHelper;
 import com.example.moviestest.services.MainResponse;
 
 import java.util.ArrayList;
@@ -21,13 +25,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     private Context context;
     private ArrayList<MainResponse.ResultsFilm> mFilm;
     private OnFilmClicked mOnFilmClicked;
+    private String TAG = "ASDA";
 
     public Adapter(Context context, ArrayList<MainResponse.ResultsFilm> mFilm, OnFilmClicked onFilmListener) {
         this.context = context;
         this.mFilm = mFilm;
         this.mOnFilmClicked = onFilmListener;
     }
-
 
 
     @NonNull
@@ -55,6 +59,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
                 .into(holder.poster);
     }
 
+
     @Override
     public int getItemCount() {
         return mFilm.size();
@@ -72,7 +77,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             titleFilm = itemView.findViewById(R.id.filmTitle);
 
 
-
           this.onFilmListener = onFilmListener;
           itemView.setOnClickListener(this);
 
@@ -81,8 +85,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         @Override
         public void onClick(View v) {
             onFilmListener.onFilmClick(getAdapterPosition());
-
+            Log.d(TAG, "onClicked: ");
         }
+
+
     }
 
     public interface OnFilmListener{
@@ -91,5 +97,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     public interface OnFilmClicked{
         void onFilmId(long id);
     }
+
+
+
 
 }
