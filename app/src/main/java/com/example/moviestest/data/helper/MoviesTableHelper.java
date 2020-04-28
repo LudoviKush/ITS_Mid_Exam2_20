@@ -1,4 +1,4 @@
-package com.example.moviestest.data.db;
+package com.example.moviestest.data.helper;
 
 
 import android.provider.BaseColumns;
@@ -20,4 +20,6 @@ public class MoviesTableHelper implements BaseColumns {
             IMG_POSTER + " TEXT, " +
             IMG_DESCRIPTION + " TEXT );";
 
+
+    public static final String DROP_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
 }

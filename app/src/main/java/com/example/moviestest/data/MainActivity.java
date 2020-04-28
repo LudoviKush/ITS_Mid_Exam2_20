@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 import com.example.moviestest.R;
+import com.example.moviestest.data.helper.Utils;
 import com.example.moviestest.services.MainResponse;
 import com.example.moviestest.services.WebService;
 import java.util.ArrayList;
@@ -40,24 +41,19 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("Movies");
 
-        isNetworkAvailable();
+       if(Utils.isNetworkAvailable(getApplicationContext())) {
+           getFeed();
+       } else {
+           getFeedFromDatabase();
+       }
 
-        getFeed();
 
-        //will save
+        //will save - check that https://www.youtube.com/watch?v=xRRkOHhcUPk
     }
 
-    public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            Log.d(TAG, "isNetworkAvailable: connected");
-            return true;
-        }
-        Toast.makeText(this, "Non sei connesso ad internet, controlla la tua connessione", Toast.LENGTH_LONG).show();
-        return false;
+    private void getFeedFromDatabase() {
     }
+
 
     @Override
     public void onFilmId(long id) {

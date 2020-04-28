@@ -23,9 +23,9 @@
             </intent-filter>
         </activity>
         <provider
-            android:authorities="com.example.moviestest.data.db.MoviesProvider"
+            android:authorities="com.example.moviestest.data.helper.MoviesProvider"
             android:exported="true"
-            android:name=".data.db.MoviesProvider"/>
+            android:name=".data.helper.MoviesProvider"/>
     </application>
 
 </manifest>

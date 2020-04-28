@@ -1,4 +1,4 @@
-package com.example.moviestest.data.db;
+package com.example.moviestest.data.helper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

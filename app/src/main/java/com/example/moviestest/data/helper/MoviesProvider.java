@@ -1,4 +1,4 @@
-package com.example.moviestest.data.db;
+package com.example.moviestest.data.helper;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -16,6 +16,7 @@ public class MoviesProvider extends ContentProvider {
 
     public static final String AUTORITY = "com.example.moviestest.data.db.MoviesProvider";
     public static final String BASE_PATH_MOVIES = "movies";
+
     public static final int ALL_MOVIES = 1;
     public static final int SINGLE_MOVIE = 0;
     public static final String MIME_TYPE_MOVIES = ContentResolver.CURSOR_DIR_BASE_TYPE + "vnd.all_movies";

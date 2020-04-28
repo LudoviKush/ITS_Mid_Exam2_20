@@ -4,7 +4,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.moviestest.R;
-import com.example.moviestest.data.db.MoviesProvider;
-import com.example.moviestest.data.db.MoviesTableHelper;
+import com.example.moviestest.data.helper.MoviesProvider;
+import com.example.moviestest.data.helper.MoviesTableHelper;
 
 public class DetailActivity extends AppCompatActivity {
 

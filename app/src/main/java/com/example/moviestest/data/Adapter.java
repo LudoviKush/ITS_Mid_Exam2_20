@@ -1,7 +1,6 @@
 package com.example.moviestest.data;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.moviestest.R;
-import com.example.moviestest.data.db.MoviesDB;
-import com.example.moviestest.data.db.MoviesTableHelper;
 import com.example.moviestest.services.MainResponse;
 
 import java.util.ArrayList;
-import retrofit2.Callback;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     private Context context;
