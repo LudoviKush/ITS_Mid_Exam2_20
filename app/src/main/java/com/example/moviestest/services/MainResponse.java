@@ -8,7 +8,7 @@ public class MainResponse implements Serializable{
     private int page;
     private int total_results;
     private int total_pages;
-    private List<ResultsFilm> results;
+    private List<Movie> results;
 
     public int getPage() {
         return page;
@@ -34,15 +34,15 @@ public class MainResponse implements Serializable{
         this.total_pages = total_pages;
     }
 
-    public List<ResultsFilm> getResults() {
+    public List<Movie> getResults() {
         return results;
     }
 
-    public void setResults(List<ResultsFilm> results) {
+    public void setResults(List<Movie> results) {
         this.results = results;
     }
 
-    public class ResultsFilm {
+    public static class Movie {
 
         private double popularity;
         private int vote_count;
@@ -59,7 +59,6 @@ public class MainResponse implements Serializable{
         private String overview;
         private String release_date;
         private List<Integer> genre_ids;
-        private String name;
 
         public double getPopularity() {
             return popularity;
@@ -137,9 +136,6 @@ public class MainResponse implements Serializable{
             return title;
         }
 
-        public String getName(){
-            return name;
-        }
 
         public void setTitle(String title) {
             this.title = title;

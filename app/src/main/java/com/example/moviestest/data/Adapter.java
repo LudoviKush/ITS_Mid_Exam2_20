@@ -17,11 +17,11 @@ import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     private Context context;
-    private ArrayList<MainResponse.ResultsFilm> mFilm;
+    private ArrayList<MainResponse.Movie> mFilm;
     private OnFilmClicked mOnFilmClicked;
     private String TAG = "ASDA";
 
-    public Adapter(Context context, ArrayList<MainResponse.ResultsFilm> mFilm, OnFilmClicked onFilmListener) {
+    public Adapter(Context context, ArrayList<MainResponse.Movie> mFilm, OnFilmClicked onFilmListener) {
         this.context = context;
         this.mFilm = mFilm;
         this.mOnFilmClicked = onFilmListener;

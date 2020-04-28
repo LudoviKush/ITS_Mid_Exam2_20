@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.moviestest.R;
+import com.example.moviestest.data.helper.MoviesDB;
 import com.example.moviestest.data.helper.Utils;
 import com.example.moviestest.services.MainResponse;
 import com.example.moviestest.services.WebService;
@@ -28,9 +29,11 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     public static String CATEGORY = "popular";
     public static String LANGUAGE = "it";
 
+    private MoviesDB mDatabase;
+
     Adapter Adapter;
     RecyclerView recyclerView;
-    List<MainResponse.ResultsFilm> listOfMovie;
+    List<MainResponse.Movie> listOfMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     }
 
     private void getFeedFromDatabase() {
+        mDatabase = new MoviesDB(this);
+
+        List<MainResponse.Movie> movieList = mDatabase.getFilms();
     }
 
 
@@ -78,10 +84,9 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
                 MainResponse results = response.body();
                 listOfMovie = results.getResults();
-                Adapter = new Adapter(getApplicationContext(), (ArrayList<MainResponse.ResultsFilm>) listOfMovie, MainActivity.this);
+                Adapter = new Adapter(getApplicationContext(), (ArrayList<MainResponse.Movie>) listOfMovie, MainActivity.this);
                 recyclerView.setAdapter(Adapter);
                 recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-
 
             }
 
