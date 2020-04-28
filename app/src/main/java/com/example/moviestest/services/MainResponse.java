@@ -1,8 +1,9 @@
 package com.example.moviestest.services;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MainResponse {
+public class MainResponse implements Serializable{
 
     private int page;
     private int total_results;

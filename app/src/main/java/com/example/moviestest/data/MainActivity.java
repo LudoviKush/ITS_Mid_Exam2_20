@@ -3,13 +3,10 @@ package com.example.moviestest.data;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
+
 import com.example.moviestest.R;
 import com.example.moviestest.data.helper.Utils;
 import com.example.moviestest.services.MainResponse;
@@ -45,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
            getFeed();
        } else {
            getFeedFromDatabase();
+           Toast.makeText(this, "Controlla la tua connessione e riprovi", Toast.LENGTH_LONG).show();
        }
 
 
@@ -80,11 +78,6 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
                 MainResponse results = response.body();
                 listOfMovie = results.getResults();
-               /* for (int i = 0; i < listOfMovie.size(); i++) {
-                    listOfMovie[i].getImage = image;
-                    String title = listOfMovie.get(i).getTitle();
-                     String image = "https://image.tmdb.org/t/p/w500/" + listOfMovie.get(i).getPoster_path();
-                }*/
                 Adapter = new Adapter(getApplicationContext(), (ArrayList<MainResponse.ResultsFilm>) listOfMovie, MainActivity.this);
                 recyclerView.setAdapter(Adapter);
                 recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
