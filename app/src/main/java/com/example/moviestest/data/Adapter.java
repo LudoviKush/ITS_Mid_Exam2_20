@@ -27,7 +27,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         this.mOnFilmClicked = onFilmListener;
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -81,7 +80,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             onFilmListener.onFilmClick(getAdapterPosition());
             Log.d(TAG, "onClicked: ");
         }
-
 
     }
 

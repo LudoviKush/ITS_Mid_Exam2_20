@@ -1,5 +1,9 @@
 package com.example.moviestest.services;
 
+import android.graphics.Bitmap;
+
+import org.w3c.dom.Text;
+
 import java.io.Serializable;
 import java.util.List;
 

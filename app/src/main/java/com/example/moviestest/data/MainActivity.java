@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ExpandableListAdapter;
 import android.widget.Toast;
-
 import com.example.moviestest.R;
 import com.example.moviestest.data.helper.MoviesDB;
 import com.example.moviestest.data.helper.Utils;
@@ -54,8 +58,11 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
     private void getFeedFromDatabase() {
         mDatabase = new MoviesDB(this);
-
         List<MainResponse.Movie> movieList = mDatabase.getFilms();
+        Log.d(TAG, "getting from db");
+
+
+
     }
 
 
@@ -92,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
             @Override
             public void onFailure(Call<MainResponse> call, Throwable t) {
-
+                Log.d(TAG, "an error occurred");
             }
         });
     }
