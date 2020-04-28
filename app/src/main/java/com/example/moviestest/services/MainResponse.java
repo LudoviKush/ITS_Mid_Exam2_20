@@ -42,8 +42,7 @@ public class MainResponse implements Serializable{
         this.results = results;
     }
 
-    public static class ResultsFilm {
-
+    public class ResultsFilm {
 
         private double popularity;
         private int vote_count;
@@ -60,6 +59,7 @@ public class MainResponse implements Serializable{
         private String overview;
         private String release_date;
         private List<Integer> genre_ids;
+        private String name;
 
         public double getPopularity() {
             return popularity;
@@ -135,6 +135,10 @@ public class MainResponse implements Serializable{
 
         public String getTitle() {
             return title;
+        }
+
+        public String getName(){
+            return name;
         }
 
         public void setTitle(String title) {
