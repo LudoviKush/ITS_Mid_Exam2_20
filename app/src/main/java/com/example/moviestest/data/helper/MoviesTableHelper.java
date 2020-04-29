@@ -1,7 +1,5 @@
 package com.example.moviestest.data.helper;
 
-
-import android.graphics.Bitmap;
 import android.provider.BaseColumns;
 
 public class MoviesTableHelper implements BaseColumns {

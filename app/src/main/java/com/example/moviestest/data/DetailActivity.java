@@ -24,7 +24,6 @@ public class DetailActivity extends AppCompatActivity {
     TextView mTitle, mDescription;
     ImageView mImage;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +43,7 @@ public class DetailActivity extends AppCompatActivity {
 
             Glide.with(this)
                     .load(backdrop)
-                    .placeholder(R.drawable.pappagallo)
+                    .placeholder(R.drawable.reload)
                     .into(mImage);
 
             mTitle.setText(title);

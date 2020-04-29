@@ -6,9 +6,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.Toast;
 import com.example.moviestest.R;
@@ -38,11 +41,23 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     Adapter Adapter;
     RecyclerView recyclerView;
     List<MainResponse.Movie> listOfMovie;
+    Button getHelpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getHelpButton = findViewById(R.id.buttonGetHelp);
+
+        getHelpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://www.themoviedb.org/talk/category/5047951f760ee3318900009a"); // missing 'http://' will cause crashed
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+
         getSupportActionBar().setTitle("Movies");
 
        if(Utils.isNetworkAvailable(getApplicationContext())) {
