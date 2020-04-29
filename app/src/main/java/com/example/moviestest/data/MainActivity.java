@@ -1,8 +1,12 @@
 package com.example.moviestest.data;
 
+import androidx.annotation.MainThread;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         getHelpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Uri uri = Uri.parse("https://www.themoviedb.org/talk/category/5047951f760ee3318900009a"); // missing 'http://' will cause crashed
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
@@ -66,8 +71,26 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
            getFeedFromDatabase();
            Toast.makeText(this, "Controlla la tua connessione e riprovi", Toast.LENGTH_LONG).show();
        }
+    }
 
-
+    @Override
+    public void onBackPressed(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You are leaving the app, are you sure about this?");
+        builder.setCancelable(true);
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i){
+                dialogInterface.cancel();
+            }
+        });
+        builder.setPositiveButton("Yes, close", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i){
+                finish();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void getFeedFromDatabase() {
