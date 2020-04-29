@@ -53,15 +53,12 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
        }
 
 
-        //will save - check that https://www.youtube.com/watch?v=xRRkOHhcUPk
     }
 
     private void getFeedFromDatabase() {
         mDatabase = new MoviesDB(this);
         List<MainResponse.Movie> movieList = mDatabase.getFilms();
         Log.d(TAG, "getting from db");
-
-
 
     }
 

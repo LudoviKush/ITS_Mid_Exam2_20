@@ -3,12 +3,15 @@ package com.example.moviestest.data;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.example.moviestest.R;
 import com.example.moviestest.data.helper.MoviesProvider;
@@ -28,29 +31,29 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         getSupportActionBar().setTitle("Detail Activity");
 
-
-        if(getIntent().getExtras() != null){
-            mId=getIntent().getExtras().getString("id");
-
-        }
-
-
         mTitle = findViewById(R.id.textViewTitle);
         mDescription = findViewById(R.id.textViewDescription);
         mImage = findViewById(R.id.imageViewPoster);
-            Cursor vCursor = getContentResolver().query(MoviesProvider.MOVIES_URI,
-                    new String[]{MoviesTableHelper.TITLE, MoviesTableHelper.DESCRIPTION,
-                            MoviesTableHelper.IMG_POSTER}, MoviesTableHelper._ID +
-                            " = "+ mId, null, null);
-        Log.d(TAG, "passed: ");
 
-            if(vCursor.moveToNext()) {
-                mTitle.setText(vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.TITLE)));
-                mDescription.setText(getText(vCursor.getColumnIndex(MoviesTableHelper.DESCRIPTION)));
-                Glide.with(DetailActivity.this).load(vCursor.getString(vCursor.getColumnIndex(MoviesTableHelper.IMG_POSTER))).into(mImage);
-            }
+        Intent intentStartedActivity = getIntent();
+        if(intentStartedActivity.hasExtra("original_title")){
+            String title = getIntent().getExtras().getString("original_title");
+            String poster = getIntent().getExtras().getString("poster_path");
+            String overview = getIntent().getExtras().getString("overview");
 
+
+            Glide.with(this)
+                    .load(poster)
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .into(mImage);
+
+            mTitle.setText(title);
+            mDescription.setText(overview);
+        } else {
+            Toast.makeText(this,"No API data", Toast.LENGTH_SHORT).show();
         }
+    }
+
 
     }
 

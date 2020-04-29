@@ -1,12 +1,15 @@
 package com.example.moviestest.data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -79,6 +82,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         public void onClick(View v) {
             onFilmListener.onFilmClick(getAdapterPosition());
             Log.d(TAG, "onClicked: ");
+            int pos = getAdapterPosition();
+            Intent intent = new Intent(context, DetailActivity.class);
+            MainResponse.Movie clickedItem = mFilm.get(pos);
+            intent.putExtra("original_title", mFilm.get(pos).getOriginal_title());
+            intent.putExtra("poster_path", mFilm.get(pos).getPoster_path());
+            intent.putExtra("overview", mFilm.get(pos).getOverview());
+            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+            Toast.makeText(v.getContext(), "You choosed " + clickedItem.getPoster_path(),Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -89,8 +102,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     public interface OnFilmClicked{
         void onFilmId(long id);
     }
-
-
 
 
 }

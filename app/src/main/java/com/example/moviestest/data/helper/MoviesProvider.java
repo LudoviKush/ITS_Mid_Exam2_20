@@ -30,7 +30,6 @@ public class MoviesProvider extends ContentProvider {
         mUriMatcher.addURI(AUTORITY, BASE_PATH_MOVIES + "/#", SINGLE_MOVIE);
     }
 
-
     @Override
     public boolean onCreate() {
         mDb = new MoviesDB(getContext());
