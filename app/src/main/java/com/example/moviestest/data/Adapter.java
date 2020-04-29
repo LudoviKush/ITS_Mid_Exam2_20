@@ -86,12 +86,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             Intent intent = new Intent(context, DetailActivity.class);
             MainResponse.Movie clickedItem = mFilm.get(pos);
             intent.putExtra("original_title", mFilm.get(pos).getOriginal_title());
-            intent.putExtra("poster_path", mFilm.get(pos).getPoster_path());
+            intent.putExtra("backdrop_path", mFilm.get(pos).getBackdrop_path());
             intent.putExtra("overview", mFilm.get(pos).getOverview());
             intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
-            Toast.makeText(v.getContext(), "You choosed " + clickedItem.getPoster_path(),Toast.LENGTH_SHORT).show();
-
         }
 
     }

@@ -65,11 +65,8 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
     @Override
     public void onFilmId(long id) {
-        Intent i = new Intent(MainActivity.this, DetailActivity.class);
-        Bundle b = new Bundle();
-        b.putString("id",String.valueOf(id));
-        i.putExtras(b);
-        startActivity(i);
+         //boh però non lo faceva andare sincermente meglio non farsi domande
+
     }
 
 

@@ -33,27 +33,24 @@ public class DetailActivity extends AppCompatActivity {
 
         mTitle = findViewById(R.id.textViewTitle);
         mDescription = findViewById(R.id.textViewDescription);
-        mImage = findViewById(R.id.imageViewPoster);
+        mImage = findViewById(R.id.imageViewBackdrop);
 
         Intent intentStartedActivity = getIntent();
         if(intentStartedActivity.hasExtra("original_title")){
             String title = getIntent().getExtras().getString("original_title");
-            String poster = getIntent().getExtras().getString("poster_path");
+            String backdrop = getIntent().getExtras().getString("backdrop_path");
             String overview = getIntent().getExtras().getString("overview");
 
 
             Glide.with(this)
-                    .load(poster)
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .load(backdrop)
+                    .placeholder(R.drawable.pappagallo)
                     .into(mImage);
 
             mTitle.setText(title);
             mDescription.setText(overview);
-        } else {
-            Toast.makeText(this,"No API data", Toast.LENGTH_SHORT).show();
+
         }
     }
-
-
-    }
+}
 

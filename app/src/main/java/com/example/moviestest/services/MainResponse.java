@@ -113,7 +113,7 @@ public class MainResponse implements Serializable{
         }
 
         public String getBackdrop_path() {
-            return backdrop_path;
+            return "https://image.tmdb.org/t/p/w500/"+backdrop_path;
         }
 
         public void setBackdrop_path(String backdrop_path) {
