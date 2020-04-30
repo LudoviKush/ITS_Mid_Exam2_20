@@ -11,6 +11,9 @@ public class Utils {
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
 
+
+
+
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
