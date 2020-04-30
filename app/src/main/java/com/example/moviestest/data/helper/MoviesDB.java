@@ -7,8 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import com.example.moviestest.services.MainResponse;
 import com.example.moviestest.services.MainResponse.Movie;
 
 import java.util.ArrayList;

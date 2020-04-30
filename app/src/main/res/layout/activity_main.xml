@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:text="Having problems?"
+        android:text="FAQ"
         android:id="@+id/buttonGetHelp"
         android:theme="@style/myButtonTheme"
         app:layout_constraintBottom_toBottomOf="parent"
