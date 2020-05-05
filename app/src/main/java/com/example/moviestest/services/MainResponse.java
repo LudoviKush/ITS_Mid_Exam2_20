@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import org.w3c.dom.Text;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainResponse implements Serializable{
@@ -12,7 +13,7 @@ public class MainResponse implements Serializable{
     private int page;
     private int total_results;
     private int total_pages;
-    private List<Movie> results;
+    private ArrayList<Movie> results;
 
     public int getPage() {
         return page;
@@ -38,11 +39,11 @@ public class MainResponse implements Serializable{
         this.total_pages = total_pages;
     }
 
-    public List<Movie> getResults() {
+    public ArrayList<Movie> getResults() {
         return results;
     }
 
-    public void setResults(List<Movie> results) {
+    public void setResults(ArrayList<Movie> results) {
         this.results = results;
     }
 
@@ -63,6 +64,21 @@ public class MainResponse implements Serializable{
         private String overview;
         private String release_date;
         private List<Integer> genre_ids;
+
+        public Movie( int vId, String vTitolo, String vDesc, String vImagePost, String vImageDesc ) {
+
+
+            this.setId(vId);
+
+            this.setTitle(vTitolo);
+
+            this.setOverview(vDesc);
+
+            this.setBackdrop_path(vImageDesc);
+
+            this.setPoster_path(vImagePost);
+
+        }
 
         public double getPopularity() {
             return popularity;

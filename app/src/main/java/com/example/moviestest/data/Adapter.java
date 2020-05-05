@@ -16,10 +16,12 @@ import com.example.moviestest.R;
 import com.example.moviestest.services.MainResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     private Context context;
     private ArrayList<MainResponse.Movie> mFilm;
+
     private OnFilmClicked mOnFilmClicked;
     private String TAG = "ASDA";
 
@@ -28,6 +30,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         this.mFilm = mFilm;
         this.mOnFilmClicked = onFilmListener;
     }
+
+
+
 
     @NonNull
     @Override
@@ -59,6 +64,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     public int getItemCount() {
         return mFilm.size();
     }
+
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

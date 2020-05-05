@@ -4,8 +4,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +17,8 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.example.moviestest.R;
 import com.example.moviestest.data.helper.MoviesDB;
+import com.example.moviestest.data.helper.MoviesProvider;
+import com.example.moviestest.data.helper.MoviesTableHelper;
 import com.example.moviestest.data.helper.Utils;
 import com.example.moviestest.services.MainResponse;
 import com.example.moviestest.services.WebService;
@@ -34,17 +39,18 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     public static String CATEGORY = "popular";
     public static String LANGUAGE = "it";
 
-    private MoviesDB mDatabase;
 
-    Adapter Adapter;
+
+    Adapter adapter;
     RecyclerView recyclerView;
-    List<MainResponse.Movie> listOfMovie;
+    ArrayList<MainResponse.Movie> listOfMovie;
     Button getHelpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        recyclerView = findViewById(R.id.listFilm);
         getHelpButton = findViewById(R.id.buttonGetHelp);
 
         getHelpButton.setOnClickListener(new View.OnClickListener() {
@@ -59,11 +65,14 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
         getSupportActionBar().setTitle("Movies");
 
+
+
        if(Utils.isNetworkAvailable(getApplicationContext())) {
            getFeed();
        } else {
-           getFeedFromDatabase();
-           Toast.makeText(this, "Controlla la tua connessione e riprovi", Toast.LENGTH_LONG).show();
+
+            mostraLista();
+           //Toast.makeText(this, "Controlla la tua connessione e riprovi", Toast.LENGTH_LONG).show();
        }
     }
 
@@ -87,14 +96,14 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         alertDialog.show();
     }
 
-    private void getFeedFromDatabase() {
-        mDatabase = new MoviesDB(this);
-        List<MainResponse.Movie> movieList = mDatabase.getFilms();
-        Log.d(TAG, "getting from db");
+    private void saveIntoDB() {
+
+
+        for(int i=0; i<listOfMovie.size();i++){
+            addMovies(listOfMovie.get(i));
+        }
 
     }
-
-
     @Override
     public void onFilmId(long id) {
          //boh però non lo faceva andare sincermente meglio non farsi domande
@@ -102,9 +111,11 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     }
 
 
+
+
     public void getFeed(){
 
-        recyclerView = findViewById(R.id.listFilm);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -116,9 +127,10 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
             @Override
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
                 MainResponse results = response.body();
-                listOfMovie = results.getResults();
-                Adapter = new Adapter(getApplicationContext(), (ArrayList<MainResponse.Movie>) listOfMovie, MainActivity.this);
-                recyclerView.setAdapter(Adapter);
+                listOfMovie = (ArrayList<MainResponse.Movie>) results.getResults();
+                saveIntoDB();
+                adapter = new Adapter(MainActivity.this, (ArrayList<MainResponse.Movie>) listOfMovie, MainActivity.this);
+                recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
 
             }
@@ -128,5 +140,59 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
                 Log.d(TAG, "an error occurred");
             }
         });
+    }
+    public void addMovies(MainResponse.Movie movie) {
+
+
+
+
+        ContentValues values = new ContentValues();
+
+        values.put(MoviesTableHelper.TITLE, movie.getTitle());
+        values.put(MoviesTableHelper.FILM_ID, movie.getId());
+        values.put(MoviesTableHelper.DESCRIPTION, movie.getOverview());
+        values.put(MoviesTableHelper.IMG_POSTER, movie.getPoster_path());
+        values.put(MoviesTableHelper.IMG_DESCRIPTION, movie.getBackdrop_path());
+
+        this.getContentResolver().insert(MoviesProvider.MOVIES_URI, values);
+
+    }
+    public void mostraLista(){
+
+        listOfMovie = new ArrayList<>();
+
+        Cursor vCursor = getContentResolver().query(MoviesProvider.MOVIES_URI, null, null, null, null);
+
+        while (vCursor.moveToNext()) {
+
+            int vTitoloColumnIndex = vCursor.getColumnIndex(MoviesTableHelper.TITLE);
+            int vFilmIdColumnIndex = vCursor.getColumnIndex(MoviesTableHelper.FILM_ID);
+            int vDescColumnIndex = vCursor.getColumnIndex(MoviesTableHelper.DESCRIPTION);
+            int vImagePostColumnIndex = vCursor.getColumnIndex(MoviesTableHelper.IMG_POSTER);
+            int vImageDescColumnIndex = vCursor.getColumnIndex(MoviesTableHelper.IMG_DESCRIPTION);
+
+            int vId = vCursor.getInt(vFilmIdColumnIndex);
+            String vTitolo = vCursor.getString(vTitoloColumnIndex);
+            String vDesc = vCursor.getString(vDescColumnIndex);
+            String vImagePost = vCursor.getString(vImagePostColumnIndex);
+            String vImageDesc = vCursor.getString(vImageDescColumnIndex);
+
+            listOfMovie.add(new MainResponse.Movie(vId, vTitolo, vDesc, vImagePost, vImageDesc));
+
+            //Log.w("id",vTitolo);
+
+
+
+        }
+
+        adapter = new Adapter(MainActivity.this, listOfMovie, MainActivity.this);
+
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+
+        adapter.notifyDataSetChanged();
+
+        vCursor.close();
     }
 }
