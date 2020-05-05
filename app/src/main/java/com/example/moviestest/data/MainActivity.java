@@ -210,6 +210,20 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    adapter.setSearching(true);
+                }
+                else{
+                    adapter.setSearching(false);
+                    adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        );
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String newText) {
@@ -219,12 +233,15 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
 
             public boolean onQueryTextChange(String newText) {
-                return true;
+                return false;
             }
 
         });
+
+
                 return true;
     }
+
 
 
     @Override
@@ -233,5 +250,3 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         return super.onOptionsItemSelected(item);
     }
 }
-
-

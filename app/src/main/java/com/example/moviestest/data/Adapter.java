@@ -23,20 +23,30 @@ import java.util.List;
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filterable {
     private Context context;
     private ArrayList<MainResponse.Movie> mFilm;
+    private ArrayList<MainResponse.Movie> searchFilmList;
+    private boolean isSearching;
 
 
 
     private OnFilmClicked mOnFilmClicked;
     private String TAG = "ASDA";
 
-    public Adapter(Context context,  ArrayList<MainResponse.Movie> mFilm, OnFilmClicked onFilmListener) {
+    public void setSearching(boolean searching) {
+        isSearching = searching;
+        if(!isSearching){
+            searchFilmList.clear();
+        }
+    }
+
+    public Adapter(Context context, ArrayList<MainResponse.Movie> mFilm, OnFilmClicked onFilmListener) {
         this.context = context;
         this.mFilm = mFilm;
         this.mOnFilmClicked = onFilmListener;
 
+        this.searchFilmList = new ArrayList<>();
+        isSearching = false;
+
     }
-
-
 
 
     @NonNull
@@ -48,16 +58,30 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
             @Override
             public void onFilmClick( int position ) {
 
-                mOnFilmClicked.onFilmId(mFilm.get(position).getId());
+                if(isSearching){
+                    mOnFilmClicked.onFilmId(searchFilmList.get(position).getId());
+                }else {
+                    mOnFilmClicked.onFilmId(mFilm.get(position).getId());
+                }
+
+
             }
         });
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String image = "https://image.tmdb.org/t/p/w500/" + mFilm.get(position).getPoster_path();
 
-        holder.titleFilm.setText(mFilm.get(position).getTitle());
+        MainResponse.Movie currentMovie;
+        if(isSearching){
+            currentMovie = searchFilmList.get(position);
+        }
+        else {
+            currentMovie = mFilm.get(position);
+        }
+        String image = "https://image.tmdb.org/t/p/w500/" + currentMovie.getPoster_path();
+
+        holder.titleFilm.setText(currentMovie.getTitle());
         Glide.with(context)
                 .load(image)
                 .centerCrop()
@@ -67,7 +91,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
 
     @Override
     public int getItemCount() {
-        return mFilm.size();
+        if(isSearching){
+            return searchFilmList.size();
+        }
+        else{
+            return mFilm.size();
+        }
     }
 
     @Override
@@ -104,9 +133,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
         @Override
         protected void publishResults( CharSequence constraint, FilterResults results ) {
 
-
-            mFilm.clear();
-            mFilm.addAll((List)results.values);
+            searchFilmList.clear();
+            searchFilmList.addAll((List)results.values);
             notifyDataSetChanged();
         }
     };
@@ -134,10 +162,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
             Log.d(TAG, "onClicked: ");
             int pos = getAdapterPosition();
             Intent intent = new Intent(context, DetailActivity.class);
-            MainResponse.Movie clickedItem = mFilm.get(pos);
-            intent.putExtra("original_title", mFilm.get(pos).getOriginal_title());
-            intent.putExtra("backdrop_path", mFilm.get(pos).getBackdrop_path());
-            intent.putExtra("overview", mFilm.get(pos).getOverview());
+            MainResponse.Movie currentMovie;
+            if(isSearching){
+                currentMovie = searchFilmList.get(pos);
+            }
+            else {
+                currentMovie = mFilm.get(pos);
+            }
+            intent.putExtra("original_title", currentMovie.getOriginal_title());
+            intent.putExtra("backdrop_path", currentMovie.getBackdrop_path());
+            intent.putExtra("overview", currentMovie.getOverview());
             intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
