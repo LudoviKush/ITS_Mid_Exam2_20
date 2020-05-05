@@ -2,18 +2,26 @@ package com.example.moviestest.data;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 import com.example.moviestest.R;
 import com.example.moviestest.data.helper.MoviesDB;
@@ -44,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     Adapter adapter;
     RecyclerView recyclerView;
     ArrayList<MainResponse.Movie> listOfMovie;
+    SearchView searchView;
     Button getHelpButton;
 
     @Override
@@ -157,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         this.getContentResolver().insert(MoviesProvider.MOVIES_URI, values);
 
     }
-    public void mostraLista(){
+    public void mostraLista() {
 
         listOfMovie = new ArrayList<>();
 
@@ -182,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
             //Log.w("id",vTitolo);
 
 
-
         }
 
         adapter = new Adapter(MainActivity.this, listOfMovie, MainActivity.this);
@@ -195,4 +203,31 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
         vCursor.close();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
+        return super.onOptionsItemSelected(item);
+    }
 }
+
+
