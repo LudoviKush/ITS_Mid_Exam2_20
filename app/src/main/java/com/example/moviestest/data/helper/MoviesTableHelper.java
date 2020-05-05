@@ -20,7 +20,5 @@ public class MoviesTableHelper implements BaseColumns {
             IMG_DESCRIPTION + " TEXT );";
 
 
-    public static final String DROP_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
-    public static final String GET_MOVIE_QUERY = "SELECT * FROM " + TABLE_NAME;
 }

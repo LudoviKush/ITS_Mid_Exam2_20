@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,17 +20,20 @@ import com.example.moviestest.services.MainResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filterable {
     private Context context;
     private ArrayList<MainResponse.Movie> mFilm;
+
+
 
     private OnFilmClicked mOnFilmClicked;
     private String TAG = "ASDA";
 
-    public Adapter(Context context, ArrayList<MainResponse.Movie> mFilm, OnFilmClicked onFilmListener) {
+    public Adapter(Context context,  ArrayList<MainResponse.Movie> mFilm, OnFilmClicked onFilmListener) {
         this.context = context;
         this.mFilm = mFilm;
         this.mOnFilmClicked = onFilmListener;
+
     }
 
 
@@ -65,10 +70,49 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         return mFilm.size();
     }
 
+    @Override
+    public Filter getFilter() {
 
 
+        return filter;
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    }
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering( CharSequence constraint ) {
+            ArrayList<MainResponse.Movie> filteredList = new ArrayList<>();
+
+
+            if(constraint == null || constraint.length()==0){
+
+                filteredList.addAll(mFilm);
+
+            }else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (MainResponse.Movie movie : mFilm){
+                    if(movie.getTitle().toLowerCase().contains(filterPattern)){
+                        filteredList.add(movie);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults( CharSequence constraint, FilterResults results ) {
+
+
+            mFilm.clear();
+            mFilm.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
         ImageView poster;
         TextView titleFilm;
         OnFilmListener onFilmListener;

@@ -1,5 +1,6 @@
 package com.example.moviestest.data.helper;
 
+import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -8,8 +9,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.provider.BaseColumns;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.HashMap;
 
 public class MoviesProvider extends ContentProvider {
 
@@ -50,9 +55,11 @@ public class MoviesProvider extends ContentProvider {
             case ALL_MOVIES:
                 vBuilder.setTables(MoviesTableHelper.TABLE_NAME);
                 break;
+
         }
 
         Cursor vCursor = vBuilder.query(vDb, projection, selection, selectionArgs, null, null, sortOrder);
+
         vCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return vCursor;
     }
@@ -131,5 +138,6 @@ public class MoviesProvider extends ContentProvider {
 
         return vUpdatedRows;
     }
+
 }
 

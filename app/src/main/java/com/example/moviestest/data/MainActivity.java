@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -38,7 +39,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements com.example.moviestest.data.Adapter.OnFilmClicked {
+public class MainActivity extends AppCompatActivity implements com.example.moviestest.data.Adapter.OnFilmClicked   {
 
     private static final String TAG ="ASDA";
     public static String BASE_URL = "https://api.themoviedb.org";
@@ -213,8 +214,26 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit( String query ) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange( String newText ) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+
+
 
 
         return true;
@@ -225,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
 
         return super.onOptionsItemSelected(item);
     }
