@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     Adapter adapter;
     RecyclerView recyclerView;
     ArrayList<MainResponse.Movie> listOfMovie;
-    SearchView searchView;
     Button getHelpButton;
 
     @Override
@@ -116,11 +115,8 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     }
     @Override
     public void onFilmId(long id) {
-         //boh però non lo faceva andare sincermente meglio non farsi domande
 
     }
-
-
 
 
     public void getFeed(){
@@ -152,9 +148,6 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         });
     }
     public void addMovies(MainResponse.Movie movie) {
-
-
-
 
         ContentValues values = new ContentValues();
 
@@ -189,9 +182,6 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
             listOfMovie.add(new MainResponse.Movie(vId, vTitolo, vDesc, vImagePost, vImageDesc));
 
-            //Log.w("id",vTitolo);
-
-
         }
 
         adapter = new Adapter(MainActivity.this, listOfMovie, MainActivity.this);
@@ -204,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
         vCursor.close();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -221,30 +212,23 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit( String query ) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange( String newText ) {
+            public boolean onQueryTextSubmit(String newText) {
                 adapter.getFilter().filter(newText);
                 return false;
             }
+
+
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+
         });
-
-
-
-
-
-        return true;
+                return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
 
         return super.onOptionsItemSelected(item);
     }
