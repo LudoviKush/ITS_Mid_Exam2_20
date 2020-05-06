@@ -72,16 +72,13 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
             }
         });
 
-        getSupportActionBar().setTitle("Movies");
-
-
 
        if(Utils.isNetworkAvailable(getApplicationContext())) {
            getFeed();
        } else {
 
             mostraLista();
-           //Toast.makeText(this, "Controlla la tua connessione e riprovi", Toast.LENGTH_LONG).show();
+           Toast.makeText(this, "Controlla la tua connessione e riprova", Toast.LENGTH_LONG).show();
        }
     }
 
