@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
         recyclerView = findViewById(R.id.listFilm);
         getHelpButton = findViewById(R.id.buttonGetHelp);
 
+
         getHelpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     }
 
     private void saveIntoDB() {
-
-
         for(int i=0; i<listOfMovie.size();i++){
             addMovies(listOfMovie.get(i));
         }
@@ -114,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements com.example.movie
     public void onFilmId(long id) {
 
     }
-
 
     public void getFeed(){
 
